@@ -98,12 +98,12 @@ external/glad/clean: external/glad/CMakeFiles/glad.dir/clean
 CMakeFiles/GLMap.dir/all: external/glad/CMakeFiles/glad.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GLMap.dir/build.make CMakeFiles/GLMap.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GLMap.dir/build.make CMakeFiles/GLMap.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/daniilermolaev/Desktop/GLMap/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Built target GLMap"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/daniilermolaev/Desktop/GLMap/build/CMakeFiles --progress-num=1,2 "Built target GLMap"
 .PHONY : CMakeFiles/GLMap.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/GLMap.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/daniilermolaev/Desktop/GLMap/build/CMakeFiles 11
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/daniilermolaev/Desktop/GLMap/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/GLMap.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/daniilermolaev/Desktop/GLMap/build/CMakeFiles 0
 .PHONY : CMakeFiles/GLMap.dir/rule
@@ -124,7 +124,7 @@ CMakeFiles/GLMap.dir/clean:
 external/glad/CMakeFiles/glad.dir/all:
 	$(MAKE) $(MAKESILENT) -f external/glad/CMakeFiles/glad.dir/build.make external/glad/CMakeFiles/glad.dir/depend
 	$(MAKE) $(MAKESILENT) -f external/glad/CMakeFiles/glad.dir/build.make external/glad/CMakeFiles/glad.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/daniilermolaev/Desktop/GLMap/build/CMakeFiles --progress-num=10,11 "Built target glad"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/daniilermolaev/Desktop/GLMap/build/CMakeFiles --progress-num=3,4 "Built target glad"
 .PHONY : external/glad/CMakeFiles/glad.dir/all
 
 # Build rule for subdir invocation for target.
