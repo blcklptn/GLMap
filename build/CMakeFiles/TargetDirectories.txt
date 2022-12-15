@@ -1,6 +1,0 @@
-/Users/daniilermolaev/Desktop/GLMap/build/CMakeFiles/Map.dir
-/Users/daniilermolaev/Desktop/GLMap/build/CMakeFiles/edit_cache.dir
-/Users/daniilermolaev/Desktop/GLMap/build/CMakeFiles/rebuild_cache.dir
-/Users/daniilermolaev/Desktop/GLMap/build/external/glad/CMakeFiles/glad.dir
-/Users/daniilermolaev/Desktop/GLMap/build/external/glad/CMakeFiles/edit_cache.dir
-/Users/daniilermolaev/Desktop/GLMap/build/external/glad/CMakeFiles/rebuild_cache.dir
