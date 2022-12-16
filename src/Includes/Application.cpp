@@ -1,178 +1,127 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <GL/glew.h>
-#define GL_SILENCE_DEPRECATION
 #include <GLFW/glfw3.h>
-#include "../libs/imgui/imgui.h"
-#include "../libs/imgui/imgui_impl_glfw.h"
-#include "../libs/imgui/imgui_impl_opengl3.h"
-#include <string>
-#include <iostream>
 
-using namespace std;
+#include <cstdio>
 
-const char* fragment_shader =
-"#version 400\n"
-"out vec4 frag_colour;"
-"void main() {"
-"  frag_colour = vec4(0.5, 0.0, 0.5, 1.0);"
-"}";
-
-const char* vertex_shader =
-"#version 400\n"
-"in vec3 vp;"
-"void main() {"
-"  gl_Position = vec4(vp, 1.0);"
-"}";
-
-
-
-class App {
-    GLFWwindow* window;
-
-private:
-    static void glfw_error_callback(int error, const char* description)
-    {
-        fprintf(stderr, "Glfw Error %d: %s\n", error, description);
-    }
-public:
-    void printVersion(void) {
-        const GLubyte* renderer = glGetString(GL_RENDERER); // get renderer string
-        const GLubyte* version = glGetString(GL_VERSION); // version as a string
-        printf("Renderer: %s\n", renderer);
-        printf("OpenGL version supported %s\n", version);
-    }
-
-    void ImguiConnect(void) {
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
-        ImGui::StyleColorsDark();
-        ImGui_ImplGlfw_InitForOpenGL(this->window, true);
-        
-    }
-
-    void GlewInit(void){
-        glewExperimental = GL_TRUE;
-        glewInit();
-        glEnable(GL_DEPTH_TEST); // enable depth-testing
-        glDepthFunc(GL_LESS);
-
-
-    }
-    int SetUpWindow(void) {
-        glfwSetErrorCallback(this->glfw_error_callback);
-        if (!glfwInit())
-            return -1;
-
-        #if defined(__APPLE__)
-            // GL 3.2 + GLSL 150
-            const char* glsl_version = "#version 150";
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
-            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
-        #endif
-        this->window = glfwCreateWindow(640, 480, "Map", NULL, NULL);
-        if (!window)
-        {
-            glfwTerminate();
-            return -1;
-        }
-        glfwMakeContextCurrent(this->window);
-
-        
-
-        this->ImguiConnect();
-        this->GlewInit();
-        printf("OpenGL version: %s\n", glGetString(GL_VERSION));
-        this->printVersion();
-
-        
-
-        
-
-        // Setup Platform/Renderer backends
-        ImGui_ImplOpenGL3_Init(glsl_version);
-
-        float points[] = {
-            0.0f,  0.5f,  0.0f,
-            0.5f, -0.5f,  0.0f,
-            -0.5f, -0.5f,  0.0f
-        };
-        GLuint vbo = 0;
-        GLuint vao = 0;
-
-        glGenBuffers(1, &vbo);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), points, GL_STATIC_DRAW);
-
-        
-        glGenVertexArrays(1, &vao);
-        glBindVertexArray(vao);
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-
-        GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vs, 1, &vertex_shader, NULL);
-        glCompileShader(vs);
-        GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fs, 1, &fragment_shader, NULL);
-        glCompileShader(fs);
-
-        GLuint shader_programme = glCreateProgram();
-        glAttachShader(shader_programme, fs);
-        glAttachShader(shader_programme, vs);
-        glLinkProgram(shader_programme);
-
-
-        /* Loop until the user closes the window */
-        while (!glfwWindowShouldClose(this->window))
-        {
-            /* Render here */
-            glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-            ImGui_ImplOpenGL3_NewFrame();
-            ImGui_ImplGlfw_NewFrame();
-            ImGui::NewFrame();
-
-            {
-            static float f = 0.0f;
-            static int counter = 0;
-
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::End();
-            }
-
-
-            ImGui::Render();
-            int display_w, display_h;
-            glfwGetFramebufferSize(window, &display_w, &display_h);
-            glViewport(0, 0, display_w, display_h);
-            glUseProgram(shader_programme);
-            glBindVertexArray(vao);
-            // draw points 0-3 from the currently bound VAO with current in-use shader
-            glDrawArrays(GL_TRIANGLES, 0, 3);
-            // update other events like input handling 
-            glfwPollEvents();
-            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-            // put the stuff we've been drawing onto the display
-            glfwSwapBuffers(window);
-        }
-
-        glfwTerminate();
-        return 0;
-
-    }
-
-
-};
-
-int main(){
-    App app;
-    app.SetUpWindow();
+void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if(action == GLFW_PRESS)
+        if(key == GLFW_KEY_ESCAPE)
+            glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
+GLFWwindow* initWindow(const int resX, const int resY)
+{
+    if(!glfwInit())
+    {
+        fprintf(stderr, "Failed to initialize GLFW\n");
+        return NULL;
+    }
+    glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
+
+    // Open a window and create its OpenGL context
+    GLFWwindow* window = glfwCreateWindow(resX, resY, "TEST", NULL, NULL);
+
+    if(window == NULL)
+    {
+        fprintf(stderr, "Failed to open GLFW window.\n");
+        glfwTerminate();
+        return NULL;
+    }
+
+    glfwMakeContextCurrent(window);
+    glfwSetKeyCallback(window, controls);
+
+    // Get info of GPU and supported OpenGL version
+    printf("Renderer: %s\n", glGetString(GL_RENDERER));
+    printf("OpenGL version supported %s\n", glGetString(GL_VERSION));
+
+    glEnable(GL_DEPTH_TEST); // Depth Testing
+    glDepthFunc(GL_LEQUAL);
+    glDisable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    return window;
+}
+
+void drawCube()
+{
+    GLfloat vertices[] =
+    {
+        -1, -1, -1,   -1, -1,  1,   -1,  1,  1,   -1,  1, -1,
+        1, -1, -1,    1, -1,  1,    1,  1,  1,    1,  1, -1,
+        -1, -1, -1,   -1, -1,  1,    1, -1,  1,    1, -1, -1,
+        -1,  1, -1,   -1,  1,  1,    1,  1,  1,    1,  1, -1,
+        -1, -1, -1,   -1,  1, -1,    1,  1, -1,    1, -1, -1,
+        -1, -1,  1,   -1,  1,  1,    1,  1,  1,    1, -1,  1
+    };
+
+    GLfloat colors[] =
+    {
+        0, 0, 0,   0, 0, 1,   0, 1, 1,   0, 1, 0,
+        1, 0, 0,   1, 0, 1,   1, 1, 1,   1, 1, 0,
+        0, 0, 0,   0, 0, 1,   1, 0, 1,   1, 0, 0,
+        0, 1, 0,   0, 1, 1,   1, 1, 1,   1, 1, 0,
+        0, 0, 0,   0, 1, 0,   1, 1, 0,   1, 0, 0,
+        0, 0, 1,   0, 1, 1,   1, 1, 1,   1, 0, 1
+    };
+
+    static float alpha = 0;
+    //attempt to rotate cube
+    glRotatef(alpha, 0, 1, 0);
+
+    /* We have a color array and a vertex array */
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 0, vertices);
+    glColorPointer(3, GL_FLOAT, 0, colors);
+
+    /* Send data : 24 vertices */
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    /* Cleanup states */
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    alpha += 1;
+}
+
+void display( GLFWwindow* window )
+{
+    while(!glfwWindowShouldClose(window))
+    {
+        // Scale to window size
+        GLint windowWidth, windowHeight;
+        glfwGetWindowSize(window, &windowWidth, &windowHeight);
+        glViewport(0, 0, windowWidth, windowHeight);
+
+        // Draw stuff
+        glClearColor(0.0, 0.8, 0.3, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glMatrixMode(GL_PROJECTION_MATRIX);
+        glLoadIdentity();
+        gluPerspective( 60, (double)windowWidth / (double)windowHeight, 0.1, 100 );
+
+        glMatrixMode(GL_MODELVIEW_MATRIX);
+        glTranslatef(0,0,-5);
+
+        drawCube();
+
+        // Update Screen
+        glfwSwapBuffers(window);
+
+        // Check for any input, or window movement
+        glfwPollEvents();
+    }
+}
+
+int main(int argc, char** argv)
+{
+    GLFWwindow* window = initWindow(1024, 620);
+    if( NULL != window )
+    {
+        display( window );
+    }
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    return 0;
+}
