@@ -244,7 +244,8 @@ CMakeFiles/GLMap.dir/src/Includes/Application.cpp.o: /Users/daniilermolaev/Deskt
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/_types/_nl_item.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__bsd_locale_defaults.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/bitset \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__bit_reference
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__bit_reference \
+  /Users/daniilermolaev/Desktop/GLMap/src/Includes/cube.hpp
 
 CMakeFiles/GLMap.dir/src/libs/imgui/imgui.cpp.o: /Users/daniilermolaev/Desktop/GLMap/src/libs/imgui/imgui.cpp \
   /Users/daniilermolaev/Desktop/GLMap/src/libs/imgui/imgui.h \
@@ -1877,6 +1878,8 @@ CMakeFiles/GLMap.dir/src/libs/imgui/imgui_widgets.cpp.o: /Users/daniilermolaev/D
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/sys/_types/_pid_t.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/i386/signal.h:
+
+/Users/daniilermolaev/Desktop/GLMap/src/Includes/cube.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/sys/appleapiopts.h:
 
